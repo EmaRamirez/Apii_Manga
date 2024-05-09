@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Api_Tienda.Models;
 using Api_Tienda.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api_Tienda.Controllers
 {
@@ -23,18 +25,38 @@ namespace Api_Tienda.Controllers
         public IActionResult GetAll()
         {
             var model = autorService.GetAll();
+            if (model.IsNullOrEmpty())
+            {
+                return NotFound("La base de datos es nula");
+            }
             return Ok(model);
         }
 
-        [HttpGet("/Autor/{id}", Name = "ObtenerAutor")]
+        [HttpGet("{id}", Name = "ObtenerAutor")]
         public IActionResult GetAuto(int id)
         {
+            if (id.GetType() != typeof(int))
+            {
+                return BadRequest();
+            }
             var model = autorService.GetById(id);
             return Ok(model);
         }
+
+
+
         [HttpPost]
         public IActionResult AddAutor([FromBody] string obj)
         {
+
+            if (obj.GetType() != typeof(string))
+            {
+                return BadRequest("El valor recibido no es valido");
+            }
+            else if (obj.Length < 3)
+            {
+                return BadRequest("El nombre tiene que tener mas caracteres");
+            }
             var model = new autor(obj);
             autorService.AddAutor(model);
             return new CreatedAtRouteResult("ObtenerAutor", new { id = model.idAutor }, model);
@@ -42,13 +64,22 @@ namespace Api_Tienda.Controllers
         [HttpDelete]
         public IActionResult DeleteAutor(int id)
         {
+            if (id.GetType() != typeof(int))
+            {
+                return BadRequest();
+            }
             autorService.Delete(id);
             return Ok();
         }
 
-        [HttpPut]
+        // [HttpPut]
+        [HttpPatch]
         public IActionResult UpdateAutor([FromBody] autor obj)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("El objeto enviado es invalido");
+            }
             autorService.Update(obj);
             return NoContent();
         }

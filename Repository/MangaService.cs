@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using Api_Tienda.Data;
+using Api_Tienda.Dtos;
 using Api_Tienda.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,33 @@ namespace Api_Tienda.Repository
             context.SaveChanges();
         }
 
-        public List<manga> GetAll() => context.Mangas.Include(x => x.autor).Include(x => x.editorial).Include(x => x.mangasDetails).ToList();
+        public List<getMandaDto> GetAll()
+        {
+            var list = GetData();
+            var mandar = new List<getMandaDto>();
+            var model = new getMandaDto();
+
+            foreach (var item in list)
+            {
+                model.Idmanga = item.idManga;
+                model.titulo = item.titulo;
+                model.price = item.precio;
+                model.mangaka = item.autor.nombre;
+                model.editorial = item.editorial.nombre;
+
+                for (var i = 0; i < item.mangasDetails.Count(); i++)
+                {
+                    var add = new details();
+                    add.idMangaDetails = item.mangasDetails[i].idMDetail;
+                    add.tomoNro = item.mangasDetails[i].tomoNro;
+                    add.reseña = item.mangasDetails[i].reseña;
+                    add.url = item.mangasDetails[i].url;
+                    model.mangas.Add(add);
+                }
+                mandar.Add(model);
+            }
+            return mandar;
+        }
 
 
 
@@ -36,5 +63,8 @@ namespace Api_Tienda.Repository
             context.Mangas.Update(obj);
             context.SaveChanges();
         }
+
+
+        private List<manga> GetData() => context.Mangas.Include(x => x.autor).Include(x => x.editorial).Include(x => x.mangasDetails).ToList();
     }
 }

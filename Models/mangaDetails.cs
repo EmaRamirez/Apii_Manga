@@ -22,7 +22,7 @@ namespace Api_Tienda.Models
         public int tomoNro { get; set; }
         public string reseña { get; set; }
         public string url { get; set; }
-        public int idManga { get; set; }
+        public int idManga { get; set; }  
         public virtual manga mangaInfo { get; set; } = new manga();
         [NotMapped]
         public IFormFile imagen { get; set; }

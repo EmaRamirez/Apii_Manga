@@ -25,7 +25,7 @@ namespace Api_Tienda.Controllers
             var model = mangaService.GetAll();
             return Ok(model);
         }
-        [HttpGet("/Manga/{id}", Name = "ObtenerManga")]
+        [HttpGet("{id}", Name = "ObtenerManga")]
         public IActionResult GetManga(int id)
         {
             var Model = mangaService.GetById(id);

@@ -30,7 +30,7 @@ namespace Api_Tienda.Controllers
 
             return Ok(value);
         }
-        [HttpGet("/editorial/{id}", Name = "ObtenerEditorial")]
+        [HttpGet("{id}", Name = "ObtenerEditorial")]
 
         public IActionResult GetEditorial(int id)
         {

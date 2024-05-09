@@ -6,7 +6,7 @@ namespace Api_Tienda.Data
 {
     public class Context : DbContext
     {
-        
+
         public Context(DbContextOptions<Context> options) : base(options)
         {
 
@@ -39,8 +39,7 @@ namespace Api_Tienda.Data
             .HasForeignKey(x => x.idManga)
             .HasPrincipalKey(x => x.idManga);
 
-
-
+        
             base.OnModelCreating(modelBuilder);
         }
     }

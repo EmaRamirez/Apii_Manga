@@ -253,3 +253,4 @@ C:\Users\emanu\OneDrive\Escritorio\Api_Tienda\Api_Tienda\obj\Debug\net8.0\refint
 C:\Users\emanu\OneDrive\Escritorio\Api_Tienda\Api_Tienda\obj\Debug\net8.0\Api_Tienda.pdb
 C:\Users\emanu\OneDrive\Escritorio\Api_Tienda\Api_Tienda\obj\Debug\net8.0\Api_Tienda.genruntimeconfig.cache
 C:\Users\emanu\OneDrive\Escritorio\Api_Tienda\Api_Tienda\obj\Debug\net8.0\ref\Api_Tienda.dll
+C:\Users\emanu\OneDrive\Escritorio\Api_Tienda\Api_Tienda\obj\Debug\net8.0\Api_Tienda.sourcelink.json

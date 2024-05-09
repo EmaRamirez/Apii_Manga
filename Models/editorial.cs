@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api_Tienda.Repository;
 
 namespace Api_Tienda.Models
 {
@@ -25,5 +26,6 @@ namespace Api_Tienda.Models
         public string nombre { get; set; }
 
         public virtual List<manga> mangas { get; set; } = new List<manga>();
+
     }
 }

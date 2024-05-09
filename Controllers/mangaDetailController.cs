@@ -21,7 +21,7 @@ namespace Api_Tienda.Controllers
         {
             return Ok(mangaDetailService.GetAll());
         }
-        [HttpGet("/mangaDetails/{id}", Name = "ObtenerMangaDetails")]
+        [HttpGet("{id}", Name = "ObtenerMangaDetails")]
         public IActionResult GetManga(int id)
         {
             return Ok(mangaDetailService.GetById(id));
@@ -53,10 +53,18 @@ namespace Api_Tienda.Controllers
 
 
             mangaDetailService.AddDetail(model);
-             return new CreatedAtRouteResult("ObtenerMangaDetails", new { id = model.idMDetail }, obj);
-            
+            return new CreatedAtRouteResult("ObtenerMangaDetails", new { id = model.idMDetail }, obj);
+
         }
+        [HttpDelete]
+        public IActionResult DeleteDetailManga(int id)
+        {
+            mangaDetailService.Delete(id);
+            return Ok("Se realizo con exito");
+        }
+
+
     }
 
-   
+
 }

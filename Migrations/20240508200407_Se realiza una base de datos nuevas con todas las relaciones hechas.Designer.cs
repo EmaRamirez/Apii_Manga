@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_Tienda.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240429214319_Iniciammos la base de datos con las tablas y sus relaciones")]
-    partial class Iniciammoslabasededatosconlastablasysusrelaciones
+    [Migration("20240508200407_Se realiza una base de datos nuevas con todas las relaciones hechas")]
+    partial class Serealizaunabasededatosnuevascontodaslasrelacioneshechas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,6 +99,9 @@ namespace Api_Tienda.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("idMDetail"));
 
+                    b.Property<int>("idManga")
+                        .HasColumnType("int");
+
                     b.Property<string>("reseña")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -111,6 +114,8 @@ namespace Api_Tienda.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("idMDetail");
+
+                    b.HasIndex("idManga");
 
                     b.ToTable("MangaDetails");
                 });
@@ -134,6 +139,17 @@ namespace Api_Tienda.Migrations
                     b.Navigation("editorial");
                 });
 
+            modelBuilder.Entity("Api_Tienda.Models.mangaDetails", b =>
+                {
+                    b.HasOne("Api_Tienda.Models.manga", "mangaInfo")
+                        .WithMany("mangasDetails")
+                        .HasForeignKey("idManga")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("mangaInfo");
+                });
+
             modelBuilder.Entity("Api_Tienda.Models.autor", b =>
                 {
                     b.Navigation("mangas");
@@ -142,6 +158,11 @@ namespace Api_Tienda.Migrations
             modelBuilder.Entity("Api_Tienda.Models.editorial", b =>
                 {
                     b.Navigation("mangas");
+                });
+
+            modelBuilder.Entity("Api_Tienda.Models.manga", b =>
+                {
+                    b.Navigation("mangasDetails");
                 });
 #pragma warning restore 612, 618
         }

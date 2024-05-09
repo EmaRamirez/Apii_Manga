@@ -5,7 +5,7 @@
 namespace Api_Tienda.Migrations
 {
     /// <inheritdoc />
-    public partial class Iniciammoslabasededatosconlastablasysusrelaciones : Migration
+    public partial class Serealizaunabasededatosnuevascontodaslasrelacioneshechas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,21 +37,6 @@ namespace Api_Tienda.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MangaDetails",
-                columns: table => new
-                {
-                    idMDetail = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    tomoNro = table.Column<int>(type: "int", nullable: false),
-                    reseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    url = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MangaDetails", x => x.idMDetail);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Mangas",
                 columns: table => new
                 {
@@ -79,6 +64,33 @@ namespace Api_Tienda.Migrations
                         principalColumn: "idEditorial",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "MangaDetails",
+                columns: table => new
+                {
+                    idMDetail = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    tomoNro = table.Column<int>(type: "int", nullable: false),
+                    reseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    idManga = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MangaDetails", x => x.idMDetail);
+                    table.ForeignKey(
+                        name: "FK_MangaDetails_Mangas_idManga",
+                        column: x => x.idManga,
+                        principalTable: "Mangas",
+                        principalColumn: "idManga",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MangaDetails_idManga",
+                table: "MangaDetails",
+                column: "idManga");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mangas_idAutor",

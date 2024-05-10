@@ -2,7 +2,7 @@ using Api_Tienda.Data;
 using Api_Tienda.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Licenses;
+
 
 namespace Api_Tienda.Repository
 {
@@ -18,9 +18,8 @@ namespace Api_Tienda.Repository
         public mangaDetails GetById(int id) => GetData().FirstOrDefault(x => x.idMDetail == id);
         public void AddDetail(mangaDetails obj)
         {
-
             var con = new manga();
-            con = context.Mangas.Include(x => x.editorial).ToList().First(x => x.idManga == 1);
+            con = context.Mangas.Include(x => x.editorial).ToList().First(x => x.idManga == obj.idManga);
             obj.mangaInfo = con;
             context.MangaDetails.Add(obj);
             context.SaveChanges();
@@ -36,7 +35,6 @@ namespace Api_Tienda.Repository
             context.MangaDetails.Update(obj);
             context.SaveChanges();
         }
-
 
         private List<mangaDetails> GetData() => context.MangaDetails.Include(x => x.mangaInfo).ToList();
     }

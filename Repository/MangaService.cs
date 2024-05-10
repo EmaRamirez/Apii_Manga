@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api_Tienda.Repository
 {
-    public class MangaService : IMangaService
+    public sealed class MangaService : IMangaService
     {
         private readonly Context context;
         public MangaService(Context _context)
@@ -21,49 +21,36 @@ namespace Api_Tienda.Repository
 
         public void Delete(int id)
         {
-            context.Mangas.Remove(GetById(id));
+            var model = GetData().First(x => x.idManga == id);
+            context.Mangas.Remove(model);
             context.SaveChanges();
         }
 
-        public List<getMandaDto> GetAll()
+        public List<getMangaDto> GetAll()
         {
             var list = GetData();
-            var mandar = new List<getMandaDto>();
-            var model = new getMandaDto();
+            var mandar = new List<getMangaDto>();
 
             foreach (var item in list)
             {
-                model.Idmanga = item.idManga;
-                model.titulo = item.titulo;
-                model.price = item.precio;
-                model.mangaka = item.autor.nombre;
-                model.editorial = item.editorial.nombre;
-
-                for (var i = 0; i < item.mangasDetails.Count(); i++)
-                {
-                    var add = new details();
-                    add.idMangaDetails = item.mangasDetails[i].idMDetail;
-                    add.tomoNro = item.mangasDetails[i].tomoNro;
-                    add.reseña = item.mangasDetails[i].reseña;
-                    add.url = item.mangasDetails[i].url;
-                    model.mangas.Add(add);
-                }
+                var model = new getMangaDto(item.idManga, item.titulo, item.precio, item.autor.nombre, item.editorial.nombre, item.mangasDetails);
                 mandar.Add(model);
             }
             return mandar;
         }
 
-
-
-        public manga GetById(int id) => context.Mangas.Include(x => x.autor).Include(x => x.editorial).FirstOrDefault(x => x.idManga == id);
-
+        public getMangaDto GetById(int id)
+        {
+            var get = GetData().FirstOrDefault(x => x.idManga == id);
+            var model = new getMangaDto(get.idManga, get.titulo, get.precio, get.autor.nombre, get.editorial.nombre, get.mangasDetails);
+            return model;
+        }
 
         public void Update(manga obj)
         {
             context.Mangas.Update(obj);
             context.SaveChanges();
         }
-
 
         private List<manga> GetData() => context.Mangas.Include(x => x.autor).Include(x => x.editorial).Include(x => x.mangasDetails).ToList();
     }

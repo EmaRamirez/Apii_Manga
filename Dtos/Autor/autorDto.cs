@@ -1,6 +1,6 @@
 namespace Api_Tienda.Dtos
 {
-    public class autorDto
+    public sealed class autorDto
     {
         public autorDto()
         {

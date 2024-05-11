@@ -1,11 +1,7 @@
-
-
-using System.Text.Json.Serialization;
-using Api_Tienda.Models;
+using Api_Tienda.Dtos;
 using Api_Tienda.Repository;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Mono.TextTemplating;
+
 
 namespace Api_Tienda.Controllers
 {
@@ -42,12 +38,12 @@ namespace Api_Tienda.Controllers
 
         [HttpPost]
         // http://localhost:5265/api/editorial
-        public IActionResult AddEditorial([FromBody] editorial obj)
+        public IActionResult AddEditorial([FromBody] editorialDto obj)
         {
-            var model = new editorial(obj.nombre);
-            servEditorial.AddEditorial(model);
 
-            return new CreatedAtRouteResult("ObtenerEditorial", new { id = model.idEditorial }, model);
+            servEditorial.AddEditorial(obj);
+
+            return new CreatedAtRouteResult("ObtenerEditorial", new { id = obj.idEditorialDto }, obj);
         }
 
         [HttpDelete("/editorial/{id}")]
@@ -59,10 +55,9 @@ namespace Api_Tienda.Controllers
         }
         [HttpPatch]
         // http://localhost:5265/api/editorial
-        public IActionResult UpdateEditorial([FromBody] editorial obj)
+        public IActionResult UpdateEditorial([FromBody] editorialDto obj)
         {
-            var model = new editorial(obj.idEditorial, obj.nombre);
-            servEditorial.Update(model);
+            servEditorial.Update(obj);
             return Ok();
         }
 

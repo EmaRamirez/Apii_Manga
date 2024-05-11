@@ -21,9 +21,8 @@ namespace Api_Tienda.Models
             this.idEditorial = editorial;
             this.QuantityMangas(mangas);
         }
-        public manga(int id, string titulo, int precio, int autor,
-         int editorial, List<mangaDetails> mangas) : this(titulo, precio, autor,
-          editorial, mangas)
+        public manga(int id, string titulo, int precio, int autor, int editorial, List<mangaDetails> mangas)
+        : this(titulo, precio, autor, editorial, mangas)
         {
             this.idManga = id;
         }

@@ -1,8 +1,8 @@
+using Api_Tienda.Dtos;
 using Api_Tienda.Models;
 using Api_Tienda.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace Api_Tienda.Controllers
 {
@@ -36,32 +36,26 @@ namespace Api_Tienda.Controllers
 
         [HttpPost]
         // http://localhost:5265/manga
-        public IActionResult AddManga([FromBody] datos obj)
+        public IActionResult AddManga([FromBody] postMangaDto obj)
         {
             if (!ModelState.IsValid)
             {
                 return NotFound("no funciona");
             }
-            var model = new manga(obj.titulo, obj.precio, obj.idAutor,
-             obj.idEditorial, obj.mangasDetails);
 
-
-
-            mangaService.AddManga(model);
+            mangaService.AddManga(obj);
             return Ok();
         }
         [HttpPatch]
         // http://localhost:5265/manga
-        public IActionResult UpdateManga([FromBody] datos obj)
+        public IActionResult UpdateManga([FromBody] postMangaDto obj)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var model = new manga(obj.idManga, obj.titulo, obj.precio, obj.idAutor,
-                         obj.idEditorial, obj.mangasDetails);
 
-            mangaService.Update(model);
+            mangaService.Update(obj);
             return Accepted();
 
         }
@@ -69,23 +63,11 @@ namespace Api_Tienda.Controllers
         // http://localhost:5265/manga?id=5
         public IActionResult Delete(int id)
         {
-
             mangaService.Delete(id);
             return Ok();
         }
+
+
     }
-
-    public class datos()
-    {
-        public int idManga { get; set; }
-        public string titulo { get; set; }
-        public int precio { get; set; }
-        public int cantidadTomos { get; set; }
-        public int idAutor { get; set; }
-
-        public int idEditorial { get; set; }
-        public virtual List<mangaDetails> mangasDetails { get; set; } = new List<mangaDetails>();
-    }
-
 
 }

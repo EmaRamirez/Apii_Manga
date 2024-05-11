@@ -13,15 +13,16 @@ namespace Api_Tienda.Repository
         {
             this.context = _context;
         }
-        public void AddManga(manga obj)
+        public void AddManga(postMangaDto obj)
         {
-            context.Mangas.Add(obj);
+            var model = new manga(obj.titulo, obj.precio, obj.idAutor, obj.idEditorial, new List<mangaDetails>());
+            context.Mangas.Add(model);
             context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            // var model = GetData().First(x => x.idManga == id);
+
             var model = context.Mangas.First(x => x.idManga == id);
             context.Mangas.Remove(model);
             context.SaveChanges();
@@ -47,9 +48,10 @@ namespace Api_Tienda.Repository
             return model;
         }
 
-        public void Update(manga obj)
+        public void Update(postMangaDto obj)
         {
-            context.Mangas.Update(obj);
+            var model = new manga(obj.idPostMangaDto,obj.titulo, obj.precio, obj.idAutor, obj.idEditorial, new List<mangaDetails>());
+            context.Mangas.Update(model);
             context.SaveChanges();
         }
 

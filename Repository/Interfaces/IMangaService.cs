@@ -6,10 +6,10 @@ namespace Api_Tienda.Repository
     public interface IMangaService
     {
         List<getMangaDto> GetAll();
-         getMangaDto GetById(int id);
-        void Update(manga obj);
+        getMangaDto GetById(int id);
+        void Update(postMangaDto obj);
         void Delete(int id);
 
-        void AddManga(manga obj);
+        void AddManga(postMangaDto obj);
     }
 }

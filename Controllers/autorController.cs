@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Api_Tienda.Dtos;
 using Api_Tienda.Models;
 using Api_Tienda.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace Api_Tienda.Controllers
         {
             this.autorService = _autorService;
         }
+        // http://localhost:5265/api/autor
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -31,6 +33,7 @@ namespace Api_Tienda.Controllers
             }
             return Ok(model);
         }
+        // http://localhost:5265/api/autor/1
 
         [HttpGet("{id}", Name = "ObtenerAutor")]
         public IActionResult GetAuto(int id)
@@ -44,24 +47,25 @@ namespace Api_Tienda.Controllers
         }
 
 
-
+        // http://localhost:5265/api/autor
         [HttpPost]
-        public IActionResult AddAutor([FromBody] string obj)
+        public IActionResult AddAutor([FromBody] autorDto obj)
         {
 
-            if (obj.GetType() != typeof(string))
+            if (obj.name.GetType() != typeof(string))
             {
                 return BadRequest("El valor recibido no es valido");
             }
-            else if (obj.Length < 3)
+            else if (obj.name.Length < 3)
             {
                 return BadRequest("El nombre tiene que tener mas caracteres");
             }
-            var model = new autor(obj);
-            autorService.AddAutor(model);
-            return new CreatedAtRouteResult("ObtenerAutor", new { id = model.idAutor }, model);
+
+            autorService.AddAutor(obj);
+            return new CreatedAtRouteResult("ObtenerAutor", new { id = obj.idAutorDto }, obj);
         }
         [HttpDelete]
+        // http://localhost:5265/api/autor?id=5
         public IActionResult DeleteAutor(int id)
         {
             if (id.GetType() != typeof(int))
@@ -72,9 +76,10 @@ namespace Api_Tienda.Controllers
             return Ok();
         }
 
-        // [HttpPut]
+
         [HttpPatch]
-        public IActionResult UpdateAutor([FromBody] autor obj)
+        // http://localhost:5265/api/autor
+        public IActionResult UpdateAutor([FromBody] autorDto obj)
         {
             if (!ModelState.IsValid)
             {

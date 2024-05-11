@@ -14,12 +14,12 @@ namespace Api_Tienda.Dtos
             this.editorial = edit;
             this.mangas = AddDetails(list);
         }
-        public int Idmanga { get; set; }
-        public string titulo { get; set; }
-        public int price { get; set; }
-        public string mangaka { get; set; }
-        public string editorial { get; set; }
-        public List<detailDto> mangas { get; set; } = new List<detailDto>();
+        public int Idmanga { get; }
+        public string titulo { get; }
+        public int price { get; }
+        public string mangaka { get; }
+        public string editorial { get; }
+        public List<detailDto> mangas { get; } = new List<detailDto>();
 
         private List<detailDto> AddDetails(List<mangaDetails> item)
         {

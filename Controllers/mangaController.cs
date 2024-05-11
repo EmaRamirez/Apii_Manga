@@ -8,7 +8,7 @@ namespace Api_Tienda.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
+    // SI BORRAMOS UNA MANGA, SE VAN A BORRAR TODOS LOS MANGAS DETAIS QUE ESTEN RELACIONADOS
     public class mangaController : Controller
     {
 
@@ -20,12 +20,14 @@ namespace Api_Tienda.Controllers
         }
 
         [HttpGet]
+        // http://localhost:5265/manga
         public IActionResult GetAllManga()
         {
             var model = mangaService.GetAll();
             return Ok(model);
         }
         [HttpGet("{id}", Name = "ObtenerManga")]
+        // http://localhost:5265/manga/2
         public IActionResult GetManga(int id)
         {
             var Model = mangaService.GetById(id);
@@ -33,6 +35,7 @@ namespace Api_Tienda.Controllers
         }
 
         [HttpPost]
+        // http://localhost:5265/manga
         public IActionResult AddManga([FromBody] datos obj)
         {
             if (!ModelState.IsValid)
@@ -47,16 +50,26 @@ namespace Api_Tienda.Controllers
             mangaService.AddManga(model);
             return Ok();
         }
-        [HttpPut]
-        public IActionResult UpdateManga([FromBody] manga obj)
+        [HttpPatch]
+        // http://localhost:5265/manga
+        public IActionResult UpdateManga([FromBody] datos obj)
         {
-            mangaService.Update(obj);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var model = new manga(obj.idManga, obj.titulo, obj.precio, obj.idAutor,
+                         obj.idEditorial, obj.mangasDetails);
+
+            mangaService.Update(model);
             return Accepted();
 
         }
         [HttpDelete]
+        // http://localhost:5265/manga?id=5
         public IActionResult Delete(int id)
         {
+
             mangaService.Delete(id);
             return Ok();
         }

@@ -21,7 +21,8 @@ namespace Api_Tienda.Repository
 
         public void Delete(int id)
         {
-            var model = GetData().First(x => x.idManga == id);
+            // var model = GetData().First(x => x.idManga == id);
+            var model = context.Mangas.First(x => x.idManga == id);
             context.Mangas.Remove(model);
             context.SaveChanges();
         }

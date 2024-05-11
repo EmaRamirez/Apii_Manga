@@ -20,6 +20,7 @@ namespace Api_Tienda.Controllers
         }
 
         [HttpGet]
+        // http://localhost:5265/api/editorial
         public IActionResult GetAll()
         {
             var value = servEditorial.GetAll();
@@ -31,6 +32,7 @@ namespace Api_Tienda.Controllers
             return Ok(value);
         }
         [HttpGet("{id}", Name = "ObtenerEditorial")]
+        // http://localhost:5265/api/editorial/1
 
         public IActionResult GetEditorial(int id)
         {
@@ -39,6 +41,7 @@ namespace Api_Tienda.Controllers
         }
 
         [HttpPost]
+        // http://localhost:5265/api/editorial
         public IActionResult AddEditorial([FromBody] editorial obj)
         {
             var model = new editorial(obj.nombre);
@@ -48,12 +51,14 @@ namespace Api_Tienda.Controllers
         }
 
         [HttpDelete("/editorial/{id}")]
+        // http://localhost:5265/editorial/2
         public IActionResult DeleteEditorial(int id)
         {
             servEditorial.Delete(id);
             return Accepted();
         }
-        [HttpPut]
+        [HttpPatch]
+        // http://localhost:5265/api/editorial
         public IActionResult UpdateEditorial([FromBody] editorial obj)
         {
             var model = new editorial(obj.idEditorial, obj.nombre);

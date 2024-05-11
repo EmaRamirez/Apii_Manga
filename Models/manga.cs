@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.IdentityModel.Tokens;
 
 
+
 namespace Api_Tienda.Models
 {
     public class manga
@@ -20,6 +21,12 @@ namespace Api_Tienda.Models
             this.idEditorial = editorial;
             this.QuantityMangas(mangas);
         }
+        public manga(int id, string titulo, int precio, int autor,
+         int editorial, List<mangaDetails> mangas) : this(titulo, precio, autor,
+          editorial, mangas)
+        {
+            this.idManga = id;
+        }
         [Key]
         public int idManga { get; set; }
         public string titulo { get; set; }
@@ -27,9 +34,9 @@ namespace Api_Tienda.Models
         public int cantidadTomos { get; set; }
 
         public int idAutor { get; set; }
-        public virtual autor autor { get; set; } 
+        public virtual autor autor { get; set; } = default!;
         public int idEditorial { get; set; }
-        public virtual editorial editorial { get; set; } 
+        public virtual editorial editorial { get; set; } = default!;
         public virtual List<mangaDetails> mangasDetails { get; set; } = new List<mangaDetails>();
 
         private void QuantityMangas(List<mangaDetails> mangas)

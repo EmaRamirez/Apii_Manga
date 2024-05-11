@@ -1,14 +1,15 @@
-using Api_Tienda.Models;
+using Api_Tienda.Dtos;
+
 
 namespace Api_Tienda.Repository
 {
     public interface IMDetailsService
     {
-        List<mangaDetails> GetAll();
-        mangaDetails GetById(int id);
-        void AddDetail(mangaDetails obj);
+        List<getMangaDetailDto> GetAll();
+        getMangaDetailDto GetById(int id);
+        void AddDetail(mangaDetails_Post obj);
         void Delete(int id);
 
-        void Update(mangaDetails obj);
+        void Update(mangaDetails_Post obj);
     }
 }

@@ -50,14 +50,10 @@ namespace Api_Tienda.Controllers
                 return BadRequest(ex.Message);
             }
 
-            var url = ubicacion;
+            obj.url = ubicacion;
 
-
-            var model = new mangaDetails(obj.tomoNro, obj.reseña, url, obj.idManga);
-
-
-            mangaDetailService.AddDetail(model);
-            return new CreatedAtRouteResult("ObtenerMangaDetails", new { id = model.idMDetail }, obj);
+            mangaDetailService.AddDetail(obj);
+            return new CreatedAtRouteResult("ObtenerMangaDetails", new { id = obj.idMangaDetail }, obj);
 
         }
         [HttpDelete]
@@ -87,8 +83,8 @@ namespace Api_Tienda.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            var model = new mangaDetails(obj.idMangaDetail, obj.tomoNro, obj.reseña, ubicacion, obj.idManga);
-            mangaDetailService.Update(model);
+            obj.url = ubicacion;
+            mangaDetailService.Update(obj);
             return Ok();
         }
 

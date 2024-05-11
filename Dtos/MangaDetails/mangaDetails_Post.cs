@@ -6,6 +6,7 @@ namespace Api_Tienda.Dtos
         public int tomoNro { get; set; }
         public string reseña { get; set; }
         public int idManga { get; set; }
+        public string? url { get; set; } = default!;
         public IFormFile imagen { get; set; }
     }
 }

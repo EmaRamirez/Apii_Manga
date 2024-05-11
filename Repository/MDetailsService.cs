@@ -1,8 +1,8 @@
-using System.Runtime.CompilerServices;
+
 using Api_Tienda.Data;
+using Api_Tienda.Dtos;
 using Api_Tienda.Models;
-using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 
 
@@ -19,27 +19,43 @@ namespace Api_Tienda.Repository
             this.context = _context;
 
         }
-        public List<mangaDetails> GetAll() => GetData();
-        public mangaDetails GetById(int id) => GetData().FirstOrDefault(x => x.idMDetail == id);
-        public void AddDetail(mangaDetails obj)
+        public List<getMangaDetailDto> GetAll()
         {
-            var con = context.Mangas.ToList().First(x => x.idManga == obj.idManga);
-            obj.mangaInfo = con;
-            context.MangaDetails.Add(obj);
+            var data = GetData();
+            var model = new List<getMangaDetailDto>();
+            foreach (var item in data)
+            {
+                var add = new getMangaDetailDto(item.idMDetail, item.tomoNro, item.reseña, item.url);
+                model.Add(add);
+            }
+            return model;
+        }
+
+        public getMangaDetailDto GetById(int id)
+        {
+            var data = GetData().First(x => x.idMDetail == id);
+            var model = new getMangaDetailDto(data.idMDetail, data.tomoNro, data.reseña, data.url);
+            return model;
+        }
+        public void AddDetail(mangaDetails_Post obj)
+        {
+            var model = new mangaDetails(obj.tomoNro, obj.reseña, obj.url, obj.idManga);
+            model.mangaInfo = context.Mangas.First(x => x.idAutor == obj.idManga);
+            context.MangaDetails.Add(model);
             context.SaveChanges();
-
-
         }
         public void Delete(int id)
         {
-            context.MangaDetails.Remove(GetById(id));
+            var model = GetData().First(x => x.idMDetail == id);
+            context.MangaDetails.Remove(model);
             context.SaveChanges();
         }
 
-        public void Update(mangaDetails obj)
+        public void Update(mangaDetails_Post obj)
         {
-            obj.mangaInfo = context.Mangas.First(x => x.idManga == obj.idManga);
-            context.MangaDetails.Update(obj);
+            var model = new mangaDetails(obj.idMangaDetail, obj.tomoNro, obj.reseña, obj.url, obj.idManga);
+            model.mangaInfo = context.Mangas.First(x => x.idManga == obj.idManga);
+            context.MangaDetails.Update(model);
             context.SaveChanges();
         }
 
